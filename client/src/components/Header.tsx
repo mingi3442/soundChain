@@ -67,35 +67,47 @@ const Circle = styled(motion.span)`
 
 const navVariants = {
   top: {
-    backgroundColor: "#ececec",
-    color: theme.textColor,
+    backgroundColor: "rgba(0,0,0,0)",
+    color: theme.whiteColor,
   },
   scroll: {
     backgroundColor: theme.bgColor,
-    color: theme.accentColor,
+    color: theme.textColor,
   },
 };
 
 function Header() {
+  const [logo, setLogo] = useState(false);
+  const homeMatch = useMatch("/");
   const signUpMatch = useMatch("/signup");
   const loginMatch = useMatch("/login");
   const navAnimation = useAnimation();
   const { scrollY } = useViewportScroll();
-
+  console.log(logo);
+  console.log(homeMatch);
   useEffect(() => {
+    if (!homeMatch) {
+      navAnimation.start("scroll");
+      setLogo(true);
+    } else {
+      navAnimation.start("top");
+      setLogo(false);
+    }
     scrollY.onChange(() => {
-      if (scrollY.get() > 80) {
+      if (homeMatch && scrollY.get() > 80) {
         navAnimation.start("scroll");
-      } else {
+        setLogo(true);
+      } else if (homeMatch && scrollY.get() < 80) {
         navAnimation.start("top");
+        setLogo(false);
       }
     });
-  }, [scrollY, navAnimation]);
+  }, [scrollY, navAnimation, homeMatch]);
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={"top"}>
       <LogoContainer>
         <Link to="/">
-          <Logo src="/logoRow.png" alt="logo" />
+          <Logo src={!logo ? "/logoWhite.png" : "/logoRow.png"} alt="logo" />
         </Link>
       </LogoContainer>
       <Items>
