@@ -1,9 +1,10 @@
-package main
+package db
 
 import (
     "context"
     "fmt"
     "log"
+    // "os"
 
     "go.mongodb.org/mongo-driver/bson"
     "go.mongodb.org/mongo-driver/mongo"
@@ -45,9 +46,9 @@ func ConnectDB() {
     // uesrsCollection := client.Database("test").Collection("users")
     fmt.Println(uesrsCollection)
 
-    err = client.Disconnect(context.TODO())
-    if err != nil {
-        log.Fatal(err)
-    }
-    fmt.Println("몽고DB 연결을 종료했습니다!")
+    // err = client.Disconnect(context.TODO())
+    // if err != nil {
+    //     log.Fatal(err)
+    // }
+    // fmt.Println("몽고DB 연결을 종료했습니다!")
 }
