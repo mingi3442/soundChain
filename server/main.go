@@ -1,7 +1,9 @@
 package main
 
-import ()
+import (
+    "github.com/mingi3442/soundChain/db"
+)
 
 func main() {
-    // ConnectDB()
+    db.ConnectDB()
 }
