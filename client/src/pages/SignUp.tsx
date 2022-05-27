@@ -9,43 +9,40 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 const theme = createTheme();
 
 export default function Signup() {
-  const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
-  const [userPw, setUserPw] = useState("");
   const [usernameErr, setUsernameErr] = useState(false);
   const [idErr, setIdErr] = useState(false);
   const [pwErr, setPwErr] = useState(false);
   // const history = useHistory();
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   axios
-  //     .post("http://localhost:4999/user/signup", {
-  //       userId: userId,
-  //       userName: username,
-  //       password: userPw,
-  //     })
-  //     .then((res) => {
-  //       setUsername("");
-  //       setUserId("");
-  //       setUserPw("");
-  //       history.push("/login");
-  //     })
-  //     .catch((err) => {
-  //       if (err) {
-  //         console.log(err.response.data.msg);
-  //         if (err.response.data.msg === "UserId is already singup") {
-  //           setIdErr(true);
-  //         } else if (err.response.data.msg === "UserName is already singup") {
-  //           setUsernameErr(true);
-  //         }
-  //       }
-  //     });
-  // };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
+    axios
+      .post("http://localhost:8000/user/signup", {
+        userId: data.get("id"),
+        username: data.get("username"),
+        password: data.get("password"),
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err.response.data);
+          if (err.response.data.err === "UserId is already singup") {
+            setIdErr(true);
+          } else if (err.response.data.err === "UserName is already singup") {
+            setUsernameErr(true);
+          }
+        }
+      });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -64,7 +61,7 @@ export default function Signup() {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -72,12 +69,11 @@ export default function Signup() {
                   required
                   fullWidth
                   id="ID"
-                  label="User ID"
+                  label="UserID"
                   name="id"
                   autoComplete="id"
                   helperText={idErr ? "이미 존재하는 유저 ID 입니다." : ""}
-                  onChange={(e) => {
-                    setUserId(e.target.value);
+                  onChange={() => {
                     setIdErr(false);
                   }}
                 />
@@ -92,8 +88,7 @@ export default function Signup() {
                   name="username"
                   autoComplete="username"
                   helperText={usernameErr ? "이미 존재하는 UserName 입니다." : ""}
-                  onChange={(e) => {
-                    setUsername(e.target.value);
+                  onChange={() => {
                     setUsernameErr(false);
                   }}
                 />
@@ -109,9 +104,7 @@ export default function Signup() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                  helperText={pwErr ? "잘못된 비밀번호 입니다." : ""}
-                  onChange={(e) => {
-                    setUserPw(e.target.value);
+                  onChange={() => {
                     setPwErr(false);
                   }}
                 />

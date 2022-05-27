@@ -110,6 +110,7 @@ function Header() {
           <Logo src={!logo ? "/logoWhite.png" : "/logoRow.png"} alt="logo" />
         </Link>
       </LogoContainer>
+      <Col></Col>
       <Items>
         <Item>
           <Link to="/signup">Sign Up {signUpMatch && <Circle layoutId="circle" />}</Link>
@@ -118,7 +119,6 @@ function Header() {
           <Link to="/login">Log In {loginMatch && <Circle layoutId="circle" />}</Link>
         </Item>
       </Items>
-      <Col></Col>
     </Nav>
   );
 }
