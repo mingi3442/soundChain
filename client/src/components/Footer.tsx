@@ -83,7 +83,7 @@ export default function Footer() {
             <Typography variant="h6" gutterBottom>
               Language
             </Typography>
-            <TextField
+            {/* <TextField
               select
               size="medium"
               variant="standard"
@@ -97,7 +97,7 @@ export default function Footer() {
                   {language.name}
                 </option>
               ))}
-            </TextField>
+            </TextField> */}
           </Grid>
           <Grid item>
             <Typography variant="caption">
