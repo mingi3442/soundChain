@@ -3,10 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
-const passport = require("passport");
-
-const LocalStrategy = require("passport-local").Strategy;
-const session = require("express-session");
 
 const { userRouter } = require("./routes");
 
