@@ -3,23 +3,11 @@ const userRouter = Router();
 const mongoose = require("mongoose");
 const { isValidObjectId } = require("mongoose");
 const lightwallet = require("eth-lightwallet");
-const { User, Post, Nft } = require("../src/models");
-const { getEth } = require("../libs/eth");
-const { createHashedPassword, ValidationPassword } = require("../libs/hash");
-
+const { User } = require("../src/models");
+const { getEth } = require("../utils/eth");
+const { verifyToken, createHashedPassword, ValidationPassword } = require("../utils/userMiddleware");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
-userRouter.post("/eth", async (req, res) => {
-  const { userId } = req.body;
-  try {
-    if (!isValidObjectId(userId)) return res.status(400).send({ err: "userId is invalid" });
-    const { address } = await User.findById(userId);
-    const user = getEth(address, userId);
-    return res.status(200).send({ user });
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 userRouter.post("/signup", async (req, res) => {
   let { username, password, userId } = req.body;
@@ -71,46 +59,27 @@ userRouter.post("/login", async (req, res) => {
     if (!user) return res.status(400).send({ err: "Password is wrong." });
     if (user) {
       const { _id, address, eth } = user;
+      const token = jwt.sign(
+        {
+          _id,
+          address,
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1m",
+          issuer: "나",
+        }
+      );
+
       if (eth === 0 || eth < 0.1) getEth(address, _id);
-      return res.status(200).send({ user, msg: "Sucess Login" });
+      return res.status(200).send({ token, user, msg: "Sucess Login" });
     }
   } catch (err) {
     console.log(err);
   }
 });
-
-userRouter.get("/:userId", async (req, res) => {
-  try {
-    const { userId } = req.params;
-    // console.log(userId);
-    if (!mongoose.isValidObjectId(userId)) return res.status(400).send({ err: "invalid userId" });
-    const user = await User.findById({ _id: userId });
-    res.send({ user });
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-userRouter.get("/:userId/post", async (req, res) => {
-  const { userId } = req.params;
-  try {
-    if (!isValidObjectId(userId)) return res.status(400).send({ err: "invalid userId" });
-    const posts = await Post.find({ userId: userId });
-    return res.status(200).send({ posts });
-  } catch (err) {
-    console.log(err);
-  }
-});
-
-userRouter.get("/:userId/nft", async (req, res) => {
-  const { userId } = req.params;
-  try {
-    if (!isValidObjectId(userId)) return res.status(400).send({ err: "invalid userId" });
-    const nfts = await Nft.find({ ownerId: userId });
-    return res.status(200).send({ nfts });
-  } catch (err) {
-    console.log(err);
-  }
+userRouter.get("/tokentest", verifyToken, (req, res) => {
+  res.json(req.decoded);
 });
 
 module.exports = {

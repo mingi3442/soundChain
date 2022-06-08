@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 
 module.exports = {
@@ -16,6 +17,21 @@ module.exports = {
         resolve({ password: key.toString("base64") });
       });
     }),
+  verifyToken: (req, res, next) => {
+    try {
+      req.decoded = jwt.verify(req.headers.authorization, process.env.JWT_SECRET);
+      return next();
+    } catch (error) {
+      if (error.name === "TokenExpiredError") {
+        return res.status(400).send({
+          message: "token is expired.",
+        });
+      }
+      return res.status(400).send({
+        message: "token is invalid.",
+      });
+    }
+  },
 };
 
 const createSalt = () =>

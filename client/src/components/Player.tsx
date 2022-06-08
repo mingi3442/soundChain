@@ -14,6 +14,7 @@ export interface MusicProps {
 
 export default function Player({ musicTracks }: IProp) {
   const [trackIndex, setTrackIndex] = useState(0);
+  console.log(trackIndex);
 
   const handleClickPrevious = () => {
     setTrackIndex((currentTrack) => (currentTrack === 0 ? musicTracks.length - 1 : currentTrack - 1));
@@ -27,7 +28,7 @@ export default function Player({ musicTracks }: IProp) {
     <AudioPlayer
       // style={{ width: "300px" }}
       //   style={{ backgroundColor: "rgba(0,0,0,0)", border: "0px solid rgba(0,0,0,0)" }}
-      autoPlay
+      // autoPlay
       // layout="horizontal"
       src={musicTracks[trackIndex].src}
       onPlay={(e) => console.log("onPlay")}
