@@ -1,21 +1,21 @@
 import Player, { MusicProps } from "./Player";
 import { styled, useTheme } from "@mui/material/styles";
 import { Box, Typography } from "@mui/material";
-const Widget = styled("div")(({ theme }) => ({
-  padding: 16,
-  borderRadius: 16,
-  width: 343,
-  maxWidth: "100%",
-  margin: "auto",
-  marginTop: 300,
-  position: "relative",
-  zIndex: 1,
-  backgroundColor: theme.palette.mode === "dark" ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.4)",
-  backdropFilter: "blur(40px)",
-}));
+const Widget = styled("div")({
+  backgroundColor: "#FFFFFF",
+  margin: "50px auto",
+  maxWidth: "300px",
+  textAlign: "center",
+  borderRadius: "10px",
+  boxShadow: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+  "&:hover": {
+    boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+  },
+});
 const CoverImage = styled("div")({
   width: 250,
   height: 250,
+  margin: 20,
   objectFit: "cover",
   overflow: "hidden",
   flexShrink: 0,
@@ -27,6 +27,11 @@ const CoverImage = styled("div")({
 });
 export default function MusicNFT() {
   const theme = useTheme();
+  const Music: MusicProps = {
+    image: "https://images.unsplash.com/photo-1653637828875-015f907b665a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+    name: "Memories",
+    src: "https://www.bensound.com/bensound-music/bensound-memories.mp3",
+  };
   const MusicProps: MusicProps[] = [
     {
       image: "https://images.unsplash.com/photo-1653637828875-015f907b665a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",

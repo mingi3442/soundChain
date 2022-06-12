@@ -13,16 +13,15 @@ export interface MusicProps {
 }
 
 export default function Player({ musicTracks }: IProp) {
-  const [trackIndex, setTrackIndex] = useState(0);
-  console.log(trackIndex);
+  // const [trackIndex, setTrackIndex] = useState(1);
 
-  const handleClickPrevious = () => {
-    setTrackIndex((currentTrack) => (currentTrack === 0 ? musicTracks.length - 1 : currentTrack - 1));
-  };
+  // const handleClickPrevious = () => {
+  //   setTrackIndex((currentTrack) => (currentTrack === 0 ? musicTracks.length - 1 : currentTrack - 1));
+  // };
 
-  const handleClickNext = () => {
-    setTrackIndex((currentTrack) => (currentTrack < musicTracks.length - 1 ? currentTrack + 1 : 0));
-  };
+  // const handleClickNext = () => {
+  //   setTrackIndex((currentTrack) => (currentTrack < musicTracks.length - 1 ? currentTrack + 1 : 0));
+  // };
 
   return (
     <AudioPlayer
@@ -30,15 +29,17 @@ export default function Player({ musicTracks }: IProp) {
       //   style={{ backgroundColor: "rgba(0,0,0,0)", border: "0px solid rgba(0,0,0,0)" }}
       // autoPlay
       // layout="horizontal"
-      src={musicTracks[trackIndex].src}
-      onPlay={(e) => console.log("onPlay")}
-      showSkipControls={true}
+      customAdditionalControls={[]}
+      customVolumeControls={[]}
+      src={musicTracks[1].src}
+      onPlay={(e) => console.log(e)}
+      // showSkipControls={true}
       showJumpControls={false}
       //   header={`Now playing: ${musicTracks[trackIndex].name}`}
       //   footer="All music from: www.bensound.com"
-      onClickPrevious={handleClickPrevious}
-      onClickNext={handleClickNext}
-      onEnded={handleClickNext}
+      // onClickPrevious={handleClickPrevious}
+      // onClickNext={handleClickNext}
+      // onEnded={handleClickNext}
       // other props here
     />
   );

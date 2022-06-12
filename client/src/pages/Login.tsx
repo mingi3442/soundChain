@@ -27,6 +27,7 @@ export default function Login() {
       })
       .then((response) => {
         console.log(response);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
       })
       .catch((err) => {
         console.log(err.response.data.err);

@@ -109,7 +109,17 @@ function Header() {
         <Link to="/">
           <Logo src={!logo ? "/logoWhite.png" : "/logoRow.png"} alt="logo" />
         </Link>
+
+        <Items>
+          <Item>
+            <Link to="/explore">Explore </Link>
+          </Item>
+          <Item>
+            <Link to="/board">Board </Link>
+          </Item>
+        </Items>
       </LogoContainer>
+
       <Col></Col>
       <Items>
         <Item>
